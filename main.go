@@ -42,14 +42,36 @@ func main() {
 		} else {
 			aiChoice = rand.Intn(3)
 
-			if choice == aiChoice {
+			aiChoiceVerbose := figures[aiChoice]
+			playerChoiceVerbose := figures[choice]
+
+			switch playerChoiceVerbose {
+			case aiChoiceVerbose:
 				resultText = "Your " + figures[choice] + " draws with AI's " + figures[aiChoice] + "!"
-			} else if choice == aiChoice-1 {
-				resultText = "Your " + figures[choice] + " beaten by AI's " + figures[aiChoice] + "!"
-				standing[1]++
-			} else {
-				resultText = "Your " + figures[choice] + " beats AI's " + figures[aiChoice] + "!"
-				standing[0]++
+			case "Rock":
+				if aiChoiceVerbose == "Scissors" {
+					resultText = "Your " + figures[choice] + " beats AI's " + figures[aiChoice] + "!"
+					standing[0]++
+				} else {
+					resultText = "Your " + figures[choice] + " beaten by AI's " + figures[aiChoice] + "!"
+					standing[1]++
+				}
+			case "Paper":
+				if aiChoiceVerbose == "Rock" {
+					resultText = "Your " + figures[choice] + " beats AI's " + figures[aiChoice] + "!"
+					standing[0]++
+				} else {
+					resultText = "Your " + figures[choice] + " beaten by AI's " + figures[aiChoice] + "!"
+					standing[1]++
+				}
+			case "Scissors":
+				if aiChoiceVerbose == "Paper" {
+					resultText = "Your " + figures[choice] + " beats AI's " + figures[aiChoice] + "!"
+					standing[0]++
+				} else {
+					resultText = "Your " + figures[choice] + " beaten by AI's " + figures[aiChoice] + "!"
+					standing[1]++
+				}
 			}
 
 			loop++
