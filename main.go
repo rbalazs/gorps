@@ -6,6 +6,14 @@ import (
 	"strconv"
 )
 
+func victory(aiChoiceVerbose string, playerChoiceVerbose string) (string, int) {
+	return "Your " + playerChoiceVerbose + " beats AI's " + aiChoiceVerbose + "!", 0
+}
+
+func lose(aiChoiceVerbose string, playerChoiceVerbose string) (string, int) {
+	return "Your " + playerChoiceVerbose + " beaten by AI's " + aiChoiceVerbose + "!", 1
+}
+
 func main() {
 	var resultText string
 	var standing = []int{0, 0}
@@ -41,39 +49,35 @@ func main() {
 			exit = true
 		} else {
 			aiChoice = rand.Intn(3)
-
 			aiChoiceVerbose := figures[aiChoice]
 			playerChoiceVerbose := figures[choice]
+			standingIndexToInc := -1
 
 			switch playerChoiceVerbose {
 			case aiChoiceVerbose:
 				resultText = "Your " + figures[choice] + " draws with AI's " + figures[aiChoice] + "!"
+				continue
 			case "Rock":
 				if aiChoiceVerbose == "Scissors" {
-					resultText = "Your " + figures[choice] + " beats AI's " + figures[aiChoice] + "!"
-					standing[0]++
+					resultText, standingIndexToInc = victory(aiChoiceVerbose, playerChoiceVerbose)
 				} else {
-					resultText = "Your " + figures[choice] + " beaten by AI's " + figures[aiChoice] + "!"
-					standing[1]++
+					resultText, standingIndexToInc = lose(aiChoiceVerbose, playerChoiceVerbose)
 				}
 			case "Paper":
 				if aiChoiceVerbose == "Rock" {
-					resultText = "Your " + figures[choice] + " beats AI's " + figures[aiChoice] + "!"
-					standing[0]++
+					resultText, standingIndexToInc = victory(aiChoiceVerbose, playerChoiceVerbose)
 				} else {
-					resultText = "Your " + figures[choice] + " beaten by AI's " + figures[aiChoice] + "!"
-					standing[1]++
+					resultText, standingIndexToInc = lose(aiChoiceVerbose, playerChoiceVerbose)
 				}
 			case "Scissors":
 				if aiChoiceVerbose == "Paper" {
-					resultText = "Your " + figures[choice] + " beats AI's " + figures[aiChoice] + "!"
-					standing[0]++
+					resultText, standingIndexToInc = victory(aiChoiceVerbose, playerChoiceVerbose)
 				} else {
-					resultText = "Your " + figures[choice] + " beaten by AI's " + figures[aiChoice] + "!"
-					standing[1]++
+					resultText, standingIndexToInc = lose(aiChoiceVerbose, playerChoiceVerbose)
 				}
 			}
 
+			standing[standingIndexToInc]++
 			loop++
 		}
 	}
