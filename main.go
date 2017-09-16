@@ -6,11 +6,19 @@ import (
 	"strconv"
 )
 
-func victory(aiChoiceVerbose string, playerChoiceVerbose string) (string, int) {
+type GameHandler interface {
+	Win(string, string) (string, int)
+	Lose(string, string) (string, int)
+}
+
+type RockPaperScissors struct {
+}
+
+func (rps RockPaperScissors) Win(aiChoiceVerbose string, playerChoiceVerbose string) (string, int) {
 	return "Your " + playerChoiceVerbose + " beats AI's " + aiChoiceVerbose + "!", 0
 }
 
-func lose(aiChoiceVerbose string, playerChoiceVerbose string) (string, int) {
+func (rps RockPaperScissors) Lose(aiChoiceVerbose string, playerChoiceVerbose string) (string, int) {
 	return "Your " + playerChoiceVerbose + " beaten by AI's " + aiChoiceVerbose + "!", 1
 }
 
@@ -18,6 +26,7 @@ func main() {
 	var resultText string
 	var standing = []int{0, 0}
 	var figures = []string{"Rock", "Paper", "Scissors", "Exit"}
+	var gameHandler = RockPaperScissors{}
 
 	exit := false
 	loop := 0
@@ -59,21 +68,21 @@ func main() {
 				continue
 			case "Rock":
 				if aiChoiceVerbose == "Scissors" {
-					resultText, standingIndexToInc = victory(aiChoiceVerbose, playerChoiceVerbose)
+					resultText, standingIndexToInc = gameHandler.Win(aiChoiceVerbose, playerChoiceVerbose)
 				} else {
-					resultText, standingIndexToInc = lose(aiChoiceVerbose, playerChoiceVerbose)
+					resultText, standingIndexToInc = gameHandler.Lose(aiChoiceVerbose, playerChoiceVerbose)
 				}
 			case "Paper":
 				if aiChoiceVerbose == "Rock" {
-					resultText, standingIndexToInc = victory(aiChoiceVerbose, playerChoiceVerbose)
+					resultText, standingIndexToInc = gameHandler.Win(aiChoiceVerbose, playerChoiceVerbose)
 				} else {
-					resultText, standingIndexToInc = lose(aiChoiceVerbose, playerChoiceVerbose)
+					resultText, standingIndexToInc = gameHandler.Lose(aiChoiceVerbose, playerChoiceVerbose)
 				}
 			case "Scissors":
 				if aiChoiceVerbose == "Paper" {
-					resultText, standingIndexToInc = victory(aiChoiceVerbose, playerChoiceVerbose)
+					resultText, standingIndexToInc = gameHandler.Win(aiChoiceVerbose, playerChoiceVerbose)
 				} else {
-					resultText, standingIndexToInc = lose(aiChoiceVerbose, playerChoiceVerbose)
+					resultText, standingIndexToInc = gameHandler.Lose(aiChoiceVerbose, playerChoiceVerbose)
 				}
 			}
 
